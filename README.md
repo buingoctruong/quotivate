@@ -18,6 +18,8 @@ The Whole Quote World
 
 # Medium Article
 
+https://medium.com/@truongbui95/exploring-gitlab-ci-cd-ce6a7ffb5746
+
 # Prerequisite
 
 * Java 17, Eclipse Temurin (former AdoptOpenJDK) is recommended: https://adoptium.net/temurin/releases?version=17
