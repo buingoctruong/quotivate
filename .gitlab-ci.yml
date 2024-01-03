@@ -42,7 +42,6 @@ deploy-job:
   variables:
     FF_NETWORK_PER_BUILD: "true"
   script:
-    - apk --no-cache add curl
     - docker build -t $APP_IMAGE .
     - docker run --name=$APP_IMAGE --rm --network=host $APP_IMAGE &
     - sleep 10  # Wait for the application to start (adjust as needed)
