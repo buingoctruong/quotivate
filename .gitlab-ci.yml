@@ -1,0 +1,49 @@
+default:
+  image: docker:24.0.5
+  services:
+    - name: docker:24.0.5-dind
+      entrypoint: [ "env", "-u", "DOCKER_HOST" ]
+      command: [ "dockerd-entrypoint.sh" ]
+    - name: mysql:latest
+
+variables:
+  DOCKER_DRIVER: overlay2
+  APP_IMAGE: quotivate
+  DOCKER_HOST: tcp://docker:2375/
+  DOCKER_TLS_CERTDIR: ""
+  MYSQL_DATABASE: quotivate
+  MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+
+stages:
+  - build
+  - test
+  - deploy
+
+build-job:
+  image: maven:3.8.5-openjdk-17
+  stage: build
+  script:
+    - mvn clean package -B
+  artifacts:
+    paths:
+      - target/*.jar
+
+test-job:
+  image: maven:3.8.5-openjdk-17
+  stage: test
+  script:
+    - mvn test
+  artifacts:
+    paths:
+      - target/*.jar
+
+deploy-job:
+  stage: deploy
+  variables:
+    FF_NETWORK_PER_BUILD: "true"
+  script:
+    - apk --no-cache add curl
+    - docker build -t $APP_IMAGE .
+    - docker run --name=$APP_IMAGE --rm --network=host $APP_IMAGE &
+    - sleep 10  # Wait for the application to start (adjust as needed)
+    - docker ps

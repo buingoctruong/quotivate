@@ -18,8 +18,6 @@ The Whole Quote World
 
 # Medium Article
 
-https://medium.com/@truongbui95/exploring-kubernetes-a-beginners-approach-to-spring-boot-application-deployment-eeedf07f442a
-
 # Prerequisite
 
 * Java 17, Eclipse Temurin (former AdoptOpenJDK) is recommended: https://adoptium.net/temurin/releases?version=17
